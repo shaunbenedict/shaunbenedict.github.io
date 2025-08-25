@@ -56,7 +56,7 @@ This website simulates a **terminal environment** where visitors can explore my 
 
 ---
 
-## 🚀 How to Run Locally
+## How to Run Locally
 
 1. Clone the repository:
 
@@ -113,5 +113,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
-> 🚀 Enjoy exploring my terminal world! Type `help` to get started.
+>  Enjoy exploring my terminal world! Type `help` to get started.
 
