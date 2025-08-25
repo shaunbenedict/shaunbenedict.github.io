@@ -154,185 +154,93 @@
     const screenEl = document.getElementById('screen');
     const input = document.getElementById('cmd');
     const promptEl = document.getElementById('prompt');
-
     const user = 'guest';
     const host = 'shaunbenedict';
-
-    // Command history
     let history = [];
     let histIndex = -1;
 
-    function pathJoin(base, part){
-      if(part.startsWith('/')) return normalizePath(part);
-      if(base === '/') return normalizePath('/' + part);
-      return normalizePath(base + '/' + part);
-    }
-    function normalizePath(p){
-      const parts = p.split('/').filter(Boolean);
-      const out = [];
-      for(const part of parts){
-        if(part === '.') continue;
-        if(part === '..') out.pop();
-        else out.push(part);
-      }
-      return '/' + out.join('/');
-    }
-
-    function getNode(path){
-      const p = normalizePath(path);
-      const parts = p === '/' ? [] : p.slice(1).split('/');
-      let node = FS['/'];
-      for(const part of parts){
-        if(!node || node.type !== 'dir' || !node.children[part]) return null;
-        node = node.children[part];
-      }
-      return node;
-    }
-
-    function listDir(path){
-      const node = getNode(path);
-      if(!node) return null;
-      if(node.type === 'file') return null;
-      return Object.keys(node.children).sort();
-    }
-
-    function writeLog(html){
-      logEl.insertAdjacentHTML('beforeend', html + '\n');
-      screenEl.scrollTop = screenEl.scrollHeight;
-    }
-
-    function renderPrompt(){
-      promptEl.textContent = `${user}@${host}:${cwd}$`;
-    }
+    function pathJoin(base, part){ if(part.startsWith('/')) return normalizePath(part); if(base==='/' ) return normalizePath('/'+part); return normalizePath(base+'/'+part);}
+    function normalizePath(p){ const parts=p.split('/').filter(Boolean); const out=[]; for(const part of parts){ if(part==='.') continue; if(part==='..') out.pop(); else out.push(part);} return '/'+out.join('/');}
+    function getNode(path){ const p=normalizePath(path); const parts=p==='/'?[]:p.slice(1).split('/'); let node=FS['/']; for(const part of parts){ if(!node||node.type!=='dir'||!node.children[part]) return null; node=node.children[part]; } return node;}
+    function listDir(path){ const node=getNode(path); if(!node) return null; if(node.type==='file') return null; return Object.keys(node.children).sort();}
+    function writeLog(html){ logEl.insertAdjacentHTML('beforeend', html+'\n'); screenEl.scrollTop = screenEl.scrollHeight;}
+    function renderPrompt(){ promptEl.textContent=`${user}@${host}:${cwd}$`; }
+    function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
     function cmdHelp(){
-      return `Available commands:\n- ls              : list files\n- cd <dir>        : change directory (e.g. cd about)\n- clear           : clear the terminal\n- help            : show this help text\n- ./name.sh       : run a script (or use sudo ./name.sh)\n`;
+      return `Available commands:
+    - ls              : list files
+    - cd <dir>        : change directory
+    - clear           : clear terminal
+    - help            : show this help
+    - ./name.sh       : run script
+    - ava <question>  : talk with my personal assistant`;
     }
 
     function runScript(path){
-      const node = getNode(path);
+      const node=getNode(path);
       if(!node) return `No such file: ${path}`;
-      if(node.type !== 'file') return `${path} is not a file`;
-      const content = node.content;
+      if(node.type!=='file') return `${path} is not a file`;
+      return node.content.replace(/^echo\s+/, '').replace(/['"]/g,'');
+    }
+
+    // Gemini AI query
+    async function askGemini(question){
       try{
-        const lines = content.split(/\n+/).map(l=>l.trim());
-        const out = lines.map(l => {
-          if(l.startsWith("echo ")){
-            let arg = l.replace(/^echo\s+/, '').trim();
-            if((arg.startsWith('"') && arg.endsWith('"')) || (arg.startsWith('\'') && arg.endsWith('\''))){
-              arg = arg.slice(1,-1);
-            }
-            return arg.replace(/\\n/g,'\n');
-          }
-          return l;
-        }).join('\n');
-        return out;
+        const res=await fetch('http://localhost:3000/ask',{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({question})
+        });
+        const data=await res.json();
+        return data.answer;
       }catch(e){
-        return content;
+        return "Error: Cannot reach Gemini API";
       }
     }
 
-    function handleCommand(raw){
-      const original = raw.trim();
+    async function handleCommand(raw){
+      const original=raw.trim();
       if(!original) return;
-      writeLog(`<div class=\"line\"><span class=\"prompt\">${user}@${host}:${cwd}$</span> <span class=\"output\">${escapeHtml(original)}</span></div>`);
+      writeLog(`<div class="line"><span class="prompt">${user}@${host}:${cwd}$</span> <span class="output">${escapeHtml(original)}</span></div>`);
+      const parts=original.split(/\s+/);
+      const cmd=parts[0];
 
-      const parts = original.split(/\s+/);
-      const cmd = parts[0];
+      if(cmd==='help'){ writeLog(`<div class="output">${escapeHtml(cmdHelp())}</div>`); return;}
+      if(cmd==='clear'){ logEl.innerHTML=''; return;}
+      if(cmd==='ls'){ const arr=listDir(cwd); writeLog(`<div class="output">${arr?escapeHtml(arr.join('   ')):`ls: cannot access '${cwd}': No such directory`}</div>`); return;}
+      if(cmd==='cd'){ const target=parts[1]||'/'; const newPath=pathJoin(cwd,target); const node=getNode(newPath); if(!node||node.type!=='dir'){ writeLog(`<div class="output muted">cd: ${target}: No such directory</div>`); return;} cwd=newPath; renderPrompt(); return;}
 
-      if(cmd === 'help'){
-        writeLog(`<div class=\"output\">${escapeHtml(cmdHelp())}</div>`);
-        return;
-      }
-      if(cmd === 'clear'){
-        logEl.innerHTML = '';
-        return;
-      }
-      if(cmd === 'ls'){
-        const arr = listDir(cwd);
-        if(arr === null){ writeLog(`<div class=\"output muted\">ls: cannot access '${cwd}': No such directory</div>`); return; }
-        writeLog(`<div class=\"output\">${escapeHtml(arr.join('   '))}</div>`);
-        return;
-      }
-      if(cmd === 'cd'){
-        const target = parts[1]||'/';
-        const newPath = pathJoin(cwd, target);
-        const node = getNode(newPath);
-        if(!node || node.type !== 'dir'){
-          writeLog(`<div class=\"output muted\">cd: ${target}: No such directory</div>`);
-          return;
-        }
-        cwd = newPath;
-        renderPrompt();
-        return;
-      }
-      let toRun = null;
-      if(cmd === 'sudo' && parts[1]){
-        if(parts[1].startsWith('./')) toRun = pathJoin(cwd, parts[1].slice(2));
-      } else if(cmd.startsWith('./')){
-        toRun = pathJoin(cwd, cmd.slice(2));
-      }
-      if(toRun){
-        const node = getNode(toRun);
-        if(!node){ writeLog(`<div class=\"output muted\">${escapeHtml('No such file: ' + toRun)}</div>`); return; }
-        if(node.type !== 'file'){ writeLog(`<div class=\"output muted\">${escapeHtml(toRun + ' is not executable')}</div>`); return; }
-        const out = runScript(toRun);
-        writeLog(`<div class=\"output\">${escapeHtml(out)}</div>`);
+      // run script
+      let toRun=null;
+      if(cmd==='sudo'&&parts[1]){ if(parts[1].startsWith('./')) toRun=pathJoin(cwd,parts[1].slice(2)); }
+      else if(cmd.startsWith('./')){ toRun=pathJoin(cwd,cmd.slice(2)); }
+      if(toRun){ const out=runScript(toRun); writeLog(`<div class="output">${escapeHtml(out)}</div>`); return;}
+
+      // Gemini AI ask
+      if(cmd==='ava'){
+        const query=parts.slice(1).join(' ');
+        if(!query){ writeLog('<div class="output muted">Usage: ava <your question></div>'); return; }
+        writeLog('<div class="output muted">Thinking...</div>');
+        const answer = await askGemini(query);
+        writeLog(`<div class="output">${escapeHtml(answer)}</div>`);
         return;
       }
 
-      if(cmd === 'ls' && parts[1]){
-        const target = pathJoin(cwd, parts[1]);
-        const arr = listDir(target);
-        if(arr === null){ writeLog(`<div class=\"output muted\">ls: cannot access '${parts[1]}': No such file or directory</div>`); return; }
-        writeLog(`<div class=\"output\">${escapeHtml(arr.join('   '))}</div>`);
-        return;
-      }
-
-      writeLog(`<div class=\"output muted\">${escapeHtml(original)}: command not found</div>`);
+      writeLog(`<div class="output muted">${escapeHtml(original)}: command not found</div>`);
     }
-    function escapeHtml(s){
-      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    }
-    document.getElementById('cmdform').addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const v = input.value;
-      history.push(v);
-      histIndex = history.length;
-      handleCommand(v);
-      input.value = '';
-    });
-    input.addEventListener('keydown', (e)=>{
-      if(e.key === 'Enter'){
-        e.preventDefault();
-        const v = input.value;
-        history.push(v);
-        histIndex = history.length;
-        handleCommand(v);
-        input.value = '';
-        return;
-      }
-      if(e.key === 'ArrowUp'){
-        e.preventDefault();
-        if(history.length === 0) return;
-        histIndex = Math.max(0, histIndex-1);
-        input.value = history[histIndex] || '';
-      }
-      if(e.key === 'ArrowDown'){
-        e.preventDefault();
-        if(history.length === 0) return;
-        histIndex = Math.min(history.length, histIndex+1);
-        if(histIndex === history.length) input.value = '';
-        else input.value = history[histIndex] || '';
-      }
+
+    // Input events
+    document.getElementById('cmdform').addEventListener('submit', e=>{e.preventDefault(); handleCommand(input.value); history.push(input.value); histIndex=history.length; input.value='';});
+    input.addEventListener('keydown', e=>{
+      if(e.key==='Enter'){ e.preventDefault(); handleCommand(input.value); history.push(input.value); histIndex=history.length; input.value=''; return; }
+      if(e.key==='ArrowUp'){ e.preventDefault(); if(history.length===0) return; histIndex=Math.max(0,histIndex-1); input.value=history[histIndex]||''; }
+      if(e.key==='ArrowDown'){ e.preventDefault(); if(history.length===0) return; histIndex=Math.min(history.length,histIndex+1); input.value=histIndex===history.length?'':history[histIndex]||''; }
     });
     document.querySelector('.terminal').addEventListener('click', ()=> input.focus());
-    writeLog(`<div class=\"output muted\">Welcome to Shaun's HomeLab Access Point. Type 'help' for commands.</div>`);
+    writeLog('<div class="output muted">Welcome to Shaun\'s HomeLab Access Point. Type "help" for commands.</div>');
     renderPrompt();
     input.focus();
-    function adjustInput(){
-    }
-    window.addEventListener('resize', adjustInput);
-  </script>
+</script>
 </body>
 </html>

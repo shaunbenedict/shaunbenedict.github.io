@@ -1,0 +1,28 @@
+{
+  "name": "protfolio",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A personal portfolio website built with modern web technologies to showcase my projects, skills, and experience.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaunbenedict/shaunbenedict.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shaunbenedict/shaunbenedict.github.io/issues"
+  },
+  "homepage": "https://github.com/shaunbenedict/shaunbenedict.github.io#readme",
+  "dependencies": {
+    "@google/genai": "^1.15.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2"
+  }
+}
