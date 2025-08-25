@@ -185,19 +185,15 @@
     }
 
     // Gemini AI query
-    async function askGemini(question){
-      try{
-        const res=await fetch('http://localhost:3000/ask',{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({question})
-        });
-        const data=await res.json();
-        return data.answer;
-      }catch(e){
-        return "Error: Cannot reach Gemini API";
-      }
-    }
+    async function askGemini(question) {
+    const res = await fetch("/api/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question })
+    });
+    const data = await res.json();
+    return data.answer;
+  }
 
     async function handleCommand(raw){
       const original=raw.trim();

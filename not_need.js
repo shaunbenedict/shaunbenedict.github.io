@@ -10,7 +10,7 @@ app.use(express.json());
 // Initialize the Gemini AI client
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-app.post("/ask", async (req, res) => {
+app.post("/ask", async (req, res) => {  
   const question = req.body.question;
   if (!question) return res.status(400).json({ answer: "No question provided." });
 
