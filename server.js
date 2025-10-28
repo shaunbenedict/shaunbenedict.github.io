@@ -1,16 +1,27 @@
 import express from "express";
 import cors from "cors";
 import { GoogleGenAI } from "@google/genai";
-import 'dotenv/config';
+import path from "path";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+
+// Load environment variables
+dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve static files (HTML, CSS, JS, images, etc.)
+app.use(express.static(__dirname));
+
 // Initialize the Gemini AI client
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-app.post("/ask", async (req, res) => {  
+app.post("/api/ask", async (req, res) => {  
   const question = req.body.question;
   if (!question) return res.status(400).json({ answer: "No question provided." });
 
@@ -33,4 +44,18 @@ app.post("/ask", async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log("Server running on http://localhost:3000"));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`
+╔════════════════════════════════════════════════════════════════╗
+║                                                                ║
+║  🚀 Server is running!                                         ║
+║                                                                ║
+║  📡 Local:   http://localhost:${PORT}                            ║
+║  🌐 Network: http://0.0.0.0:${PORT}                              ║
+║                                                                ║
+║  Press Ctrl+C to stop                                          ║
+║                                                                ║
+╚════════════════════════════════════════════════════════════════╝
+  `);
+});
