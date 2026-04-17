@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Shaun Benedict's Interactive Terminal Website
 
 Welcome to the repository for my **interactive terminal-style personal website**, hosted at [http://shaunbenedict.vercel.app](http://shaunbenedict.vercel.app).  
@@ -115,3 +116,21 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 >  Enjoy exploring my terminal world! Type `help` to get started.
 
+=======
+# React + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+
+## React Compiler
+
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+>>>>>>> a63ccb3 (FEAT: Revamp)
