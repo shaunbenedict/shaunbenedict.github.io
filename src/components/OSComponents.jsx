@@ -3,9 +3,21 @@ import { X, Minus, Maximize2, Monitor, Wifi, Battery, Search, Briefcase, Graduat
 
 export const MenuBar = () => {
   const [time, setTime] = useState(new Date());
+  const [batteryLevel, setBatteryLevel] = useState(null);
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
+    
+    // Battery Status
+    if ('getBattery' in navigator) {
+      navigator.getBattery().then(bat => {
+        setBatteryLevel(Math.round(bat.level * 100));
+        bat.addEventListener('levelchange', () => {
+          setBatteryLevel(Math.round(bat.level * 100));
+        });
+      });
+    }
+
     return () => clearInterval(timer);
   }, []);
 
@@ -32,11 +44,20 @@ export const MenuBar = () => {
           <div key={item} className="menu-item">{item}</div>
         ))}
       </div>
-      <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
-        <div className="menu-item"><Wifi size={14} /></div>
-        <div className="menu-item"><Battery size={14} /></div>
-        <div className="menu-item"><Search size={14} /></div>
-        <span style={{ marginLeft: '10px' }}>{time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+        <div className="menu-item" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <Wifi size={14} />
+        </div>
+        <div className="menu-item" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <Battery size={14} />
+          {batteryLevel !== null && <span>{batteryLevel}%</span>}
+        </div>
+        <div className="menu-item" style={{ display: 'flex', alignItems: 'center' }}>
+          <Search size={14} />
+        </div>
+        <div className="menu-item" style={{ fontWeight: '600', marginLeft: '2px' }}>
+          {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        </div>
       </div>
     </div>
   );

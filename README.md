@@ -1,136 +1,20 @@
-<<<<<<< HEAD
-# Shaun Benedict's Interactive Terminal Website
+# bearOS | S. Shaun Benedict Portfolio
 
-Welcome to the repository for my **interactive terminal-style personal website**, hosted at [http://shaunbenedict.vercel.app](http://shaunbenedict.vercel.app).  
+A high-fidelity, operating system-inspired portfolio website built with React 19, Vite, and Lucide Icons.
 
-This website simulates a **terminal environment** where visitors can explore my projects, contact info, and even interact with my personal assistant, **Ava**.
----
+## Features
+- **macOS Desktop Interface**: Overlapping windows, interactive dock, and a liquid-glass design system.
+- **iOS Mobile Experience**: Automatically transforms into a native-feeling iPhone interface on mobile devices, complete with an app grid, dynamic status bar, and full-screen app interactions.
+- **Dynamic Window Management**: Supports dragging, resizing, and z-index management for a true OS feel.
+- **Real-Time Data**: Integrated with live weather and populated with real professional data from LinkedIn and GitHub.
 
-## 🔍 Overview
+## Tech Stack
+- **Frontend**: React 19, Vite
+- **Icons**: Lucide React
+- **Styling**: Vanilla CSS (Liquid Glassmorphism & Claymorphism)
+- **Deployment**: GitHub Pages
 
-- **Type:** Interactive terminal-style personal website  
-- **Hosted on:** [Vercel](http://shaunbenedict.vercel.app)  
-- **Purpose:** Showcase my projects, skills, and personal info in a fun, interactive way  
-- **Special feature:** AI-powered assistant (`ava <question>`)
-
----
-
-## 🖥️ Features
-
-- **Terminal Simulation**: Mimics a Bash terminal with prompt, directories, and files  
-- **Simulated Filesystem**:
-  - `/about/about.sh` — Introduction about me  
-  - `/projects/projects.sh` — Lists my projects  
-  - `/contact/contact.sh` — Displays contact info  
-- **Custom Commands**:
-  - `ls` — List files and directories  
-  - `cd <dir>` — Change directory  
-  - `./<script>.sh` — Run script files  
-  - `ava <question>` — Ask my AI assistant, Ava
-  - `clear` — Clear the terminal screen  
-  - `help` — Show available commands  
-- **Responsive Design** — Works on desktop and mobile  
-- **Interactive AI** — Live queries and responses
-
----
-
-## 🛠️ Technologies Used
-
-| Technology      | Purpose |
-|-----------------|---------|
-| HTML5           | Structure of the page |
-| CSS3            | Styling and terminal look |
-| JavaScript      | Terminal simulation & interactive commands |
-| Node.js         | Backend API to handle Gemini AI queries |
-| Gemini API      | AI-powered assistant |
-| Vercel          | Hosting and deployment |
-
----
-
-## 📂 Repository Structure
-
-```
-/index.html       - Main terminal page
-/logo.png         - Site logo
-/api/ask          - Backend API route for Gemini AI
-```
-
----
-
-## How to Run Locally
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/shaunbenedict/shaunbenedict.github.io.git
-cd shaunbenedict.github.io
-```
-
-2. Install dependencies (for API routes):
-
-```bash
-npm install
-```
-
-3. Set environment variables (Gemini API key):
-
-```bash
-# .env.local
-GEMINI_API_KEY=your_api_key_here
-```
-
-4. Start the local server:
-
-```bash
-npm run dev
-```
-
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
----
-
-## 💬 Usage
-
-- **Explore the filesystem**: `ls`, `cd /about`, `./about.sh`  
-- **View projects**: `cd /projects && ./projects.sh`  
-- **Contact me**: `cd /contact && ./contact.sh`  
-- **Ask AI assistant**: `ava <your question>`  
-- **Clear terminal**: `clear`  
-- **Show help**: `help`  
-
----
-
-## 🌐 Connect with Me
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/shaunbenedict/)  
-[![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:s.shaunbenedict@gmail.com)  
-[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/s.shaunbenedict)
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
->  Enjoy exploring my terminal world! Type `help` to get started.
-
-=======
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
->>>>>>> a63ccb3 (FEAT: Revamp)
+## Contact
+- **Email**: s.shaunbenedict@gmail.com
+- **LinkedIn**: [shaunbenedict](https://www.linkedin.com/in/shaunbenedict/)
+- **GitHub**: [shaunbenedict](https://github.com/shaunbenedict)

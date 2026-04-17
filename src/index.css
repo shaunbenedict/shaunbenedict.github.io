@@ -330,3 +330,153 @@ input:focus {
   border: 1px solid rgba(255,255,255,0.1);
 }
 
+
+/* iOS Mobile Styles */
+.mobile-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ios-status-bar {
+  height: 44px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 30px 5px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--bear-brown-dark);
+  z-index: 100;
+}
+
+.ios-home-screen {
+  flex: 1;
+  padding: 20px 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px 15px;
+  margin-top: 20px;
+}
+
+.mobile-app-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.mobile-app-icon:active {
+  transform: scale(0.9);
+}
+
+.mobile-icon-box {
+  width: 62px;
+  height: 62px;
+  border-radius: 14px; /* iOS Squircle approximation */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bear-cream);
+  box-shadow: 
+    rgba(139, 90, 43, 0.1) 0px 4px 10px,
+    inset rgba(255, 255, 255, 0.8) 0px 4px 8px -2px;
+  transition: transform 0.1s ease;
+}
+
+.mobile-icon-box:active {
+  background: #f0e6dd;
+}
+
+.mobile-app-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--bear-brown-dark);
+  text-align: center;
+  max-width: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ios-dock-wrapper {
+  padding: 20px;
+  margin-bottom: 10px;
+}
+
+.ios-dock {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-radius: 30px;
+  height: 85px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 15px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.mobile-app-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bear-cream);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  animation: iosAppOpen 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+}
+
+@keyframes iosAppOpen {
+  from { transform: scale(0.8) translateY(100px); opacity: 0; border-radius: 50px; }
+  to { transform: scale(1) translateY(0); opacity: 1; border-radius: 0; }
+}
+
+.app-header-mobile {
+  height: 90px;
+  padding: 44px 20px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(139, 90, 43, 0.05);
+}
+
+.app-content-mobile {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.home-indicator {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 5px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
+  z-index: 1001;
+}
+
+/* Hide desktop elements on mobile */
+@media (max-width: 600px) {
+  .sidebar, .dock-container, .window {
+    display: none !important;
+  }
+}
