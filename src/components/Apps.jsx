@@ -3,11 +3,27 @@ import { User, Briefcase, GraduationCap, Code2, Globe, Server, Terminal, Code, H
 
 export const AboutApp = () => (
   <div style={{ padding: '20px' }}>
-    <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-      <User size={24} color="#8b5a2b" /> About S. Shaun Benedict
-    </h3>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '20px' }}>
+      <div className="clay" style={{
+        width: '100px',
+        height: '100px',
+        borderRadius: '50%',
+        overflow: 'hidden',
+        border: '3px solid white',
+        boxShadow: '0 10px 20px rgba(139, 90, 43, 0.15)'
+      }}>
+        <img src="/1758460525478.jpeg" style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="S. Shaun Benedict" />
+      </div>
+      <div>
+        <h3 style={{ margin: '0 0 5px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <User size={24} color="#8b5a2b" /> S. Shaun Benedict
+        </h3>
+        <p style={{ margin: 0, opacity: 0.7, fontSize: '14px' }}>Software Developer & Interim CTO</p>
+      </div>
+    </div>
+
     <p style={{ lineHeight: '1.6' }}>
-      Passionate AI & Software developer currently pursuing B.Tech CSE at **SRMIST**. I specialize in building intelligent agents and secure systems, with a strong focus on Python, Local LLMs, and Flutter.
+      Passionate AI & Software developer currently pursuing B.Tech CSE at SRMIST. I specialize in building intelligent agents and secure systems, with a strong focus on Python, Local LLMs, and Flutter.
     </p>
     <div className="clay" style={{ padding: '15px', marginTop: '20px', borderRadius: '15px', background: 'rgba(139, 90, 43, 0.05)' }}>
       <h4 style={{ margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -18,9 +34,9 @@ export const AboutApp = () => (
       </p>
     </div>
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '20px' }}>
-       <span className="glass" style={{ padding: '5px 15px', borderRadius: '15px', fontSize: '12px' }}>Interim CTO</span>
-       <span className="glass" style={{ padding: '5px 15px', borderRadius: '15px', fontSize: '12px' }}>Core Team Lead</span>
-       <span className="glass" style={{ padding: '5px 15px', borderRadius: '15px', fontSize: '12px' }}>AI/ML Engineer</span>
+      <span className="glass" style={{ padding: '5px 15px', borderRadius: '15px', fontSize: '12px' }}>Interim CTO</span>
+      <span className="glass" style={{ padding: '5px 15px', borderRadius: '15px', fontSize: '12px' }}>Core Team Lead</span>
+      <span className="glass" style={{ padding: '5px 15px', borderRadius: '15px', fontSize: '12px' }}>AI/ML Engineer</span>
     </div>
   </div>
 );
@@ -30,7 +46,7 @@ export const MicIoTApp = () => (
     <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
       <Briefcase size={24} color="#8b5a2b" /> Experience
     </h3>
-    
+
     <div className="clay" style={{ padding: '15px', marginBottom: '15px', borderRadius: '15px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <strong>Coding Literacy Initiative</strong>
@@ -99,7 +115,7 @@ export const ProjectsApp = () => (
     <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', margin: '0 0 5px' }}>
       <Zap size={24} color="#8b5a2b" /> Projects
     </h3>
-    
+
     <div className="clay" style={{ padding: '12px', borderRadius: '15px' }}>
       <h4 style={{ margin: '0 0 5px', display: 'flex', alignItems: 'center', gap: '5px' }}><MessageCircle size={14} /> Revital</h4>
       <p style={{ fontSize: '12px', opacity: 0.7, margin: '5px 0' }}>Interactive Streamlit app where multiple AI agents engage in dynamic debates.</p>
@@ -145,15 +161,15 @@ export const SocialApp = ({ url, name }) => {
   const isLinkedIn = name === 'LinkedIn';
   const isGitHub = name === 'GitHub';
   const isInstagram = name === 'Instagram';
-  
+
   const accentColor = isLinkedIn ? '#0077b5' : isInstagram ? '#e4405f' : '#333';
-  
+
   return (
-    <div style={{ 
-      width: '100%', 
-      height: '100%', 
-      background: '#f9f4f0', 
-      display: 'flex', 
+    <div style={{
+      width: '100%',
+      height: '100%',
+      background: '#f9f4f0',
+      display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
@@ -161,10 +177,10 @@ export const SocialApp = ({ url, name }) => {
       padding: '40px',
       textAlign: 'center'
     }}>
-      <div style={{ 
-        position: 'absolute', 
-        fontSize: '200px', 
-        opacity: 0.03, 
+      <div style={{
+        position: 'absolute',
+        fontSize: '200px',
+        opacity: 0.03,
         zIndex: 0,
         pointerEvents: 'none'
       }}>
@@ -172,11 +188,11 @@ export const SocialApp = ({ url, name }) => {
       </div>
 
       <div className="clay" style={{ padding: '30px', borderRadius: '30px', zIndex: 1, maxWidth: '400px', background: 'white' }}>
-        <div style={{ 
-          width: '80px', 
-          height: '80px', 
-          background: accentColor, 
-          borderRadius: '20px', 
+        <div style={{
+          width: '80px',
+          height: '80px',
+          background: accentColor,
+          borderRadius: '20px',
           margin: '0 auto 20px',
           display: 'flex',
           alignItems: 'center',
