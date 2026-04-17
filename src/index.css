@@ -479,4 +479,23 @@ input:focus {
   .sidebar, .dock-container, .window {
     display: none !important;
   }
+  
+  .login-card {
+    gap: 5px;
+  }
+
+  .avatar-container {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 5px;
+  }
+
+  .user-name {
+    font-size: 22px;
+    margin: 5px 0;
+  }
+
+  .login-footer {
+    display: none !important;
+  }
 }
